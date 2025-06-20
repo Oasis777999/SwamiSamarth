@@ -38,7 +38,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       {isLogin && (
         <div
-          className={`bg-darkBlue text-white vh-100 shadow-lg position-fixed top-0 start-0 p-3 flex-column flex-shrink-0 ${
+          className={`bg-darkBlue vh-100 shadow-lg position-fixed top-0 start-0 p-3 flex-column flex-shrink-0 ${
             isOpen ? "d-flex" : "d-none"
           } d-md-flex`}
           style={{ width: "250px", zIndex: 1050 }}
@@ -53,10 +53,10 @@ const Sidebar = () => {
             />
           </div>
           <ul className="nav nav-pills flex-column mb-auto gap-2">
-            <li className="nav-item">
+            <li className="nav-item ">
               <Link
                 to="/add-agent"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <i className="bi bi-person-plus-fill"></i> Add Agent
@@ -65,7 +65,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/data"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <i className="bi bi-table"></i>Volontiers List
@@ -74,7 +74,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/agent-data"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <i className="bi bi-table"></i>Agent List
@@ -83,7 +83,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/reports"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <i className="bi bi-graph-up"></i> Reports
@@ -92,7 +92,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/profile"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <i className="bi bi-person-circle"></i> Profile
@@ -101,7 +101,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/login"
-                className="nav-link text-white d-flex align-items-center gap-2"
+                className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => {
                   setIsOpen(false);
                   LogOut();

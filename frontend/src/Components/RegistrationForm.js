@@ -80,15 +80,15 @@ export const RegistrationForm = () => {
         body: submissionData,
       });
 
-      navigate("/thankyou");
-
       if (!response.ok) {
         throw new Error("Failed to submit form");
       }
+//       let TQMessage = await fetch(`http://sms.advaitdigital.com/api/smsapi?key=c0a386bcdce63e8ce841f9e127b2458b&route=1&sender=COOCSL&number=${formData.mobile}&sms=Dear, Rs. 10000 has been debited to your account 66. Account balance: Rs. 00. Chartered Co-Operative
+// &templateid=1707173614237110753`);
 
+      navigate("/thankyou");
       alert("Form submitted successfully");
     } catch (error) {
-      console.error("Submission error:", error);
       alert("Something went wrong. Please try again.");
     }
   };
