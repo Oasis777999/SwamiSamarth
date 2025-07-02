@@ -99,33 +99,33 @@ export const AddAgent = () => {
     <div className="container py-5">
       <div className="row  justify-content-center">
         <div className="col-lg-8">
-          <div className="card bg-lightBlue shadow p-4">
+          <div className="card shadow p-4">
             <div className="container my-4">
-              <div className="d-flex bg-lightBlue  flex-column flex-sm-row align-items-center gap-3 p-3 border rounded shadow-sme">
-                <div className="flex-shrink-0">
+              <div className="d-flex  bg-lightBlue flex-column flex-sm-row align-items-center gap-3 p-3 border rounded shadow-sme">
+                <div className="flex-shrink-0 ">
                   <img
                     src={logo}
                     alt="Logo"
                     height="100"
                     width="100"
-                    className="img-fluid"
+                    className="img-fluid bg-lightBlue"
                   />
                 </div>
-                <div>
-                  <h3 className="mb-1 text-warning fw-bold">Dindoripranit</h3>
-                  <p className="mb-1 text-muted">
+                <div className="bg-lightBlue">
+                  <h3 className=" text-warning fw-bold text-danger bg-lightBlue">Dindoripranit</h3>
+                  <p className=" text-muted bg-lightBlue">
                     Shree Swami Samarth Seva Marg
                   </p>
-                  <h4 className="mb-0 text-secondary fst-italic fs-6">
+                  <h4 className="mb-0 text-secondary fst-italic fs-6 bg-lightBlue">
                     Akhil Bhartiya Shree Swami Samarth Gurupeeth
                   </h4>
                 </div>
               </div>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="bg-white">
               {/* Full Name */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Full Name <span className="text-danger">*</span>
                 </label>
                 <input
@@ -138,8 +138,8 @@ export const AddAgent = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Date of Birth <span className="text-danger">*</span>
                 </label>
                 <input
@@ -154,8 +154,8 @@ export const AddAgent = () => {
               </div>
 
               {/* Gender */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Gender <span className="text-danger">*</span>
                 </label>
                 <select
@@ -174,8 +174,8 @@ export const AddAgent = () => {
               </div>
 
               {/* Mobile */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Mobile <span className="text-danger">*</span>
                 </label>
                 <input
@@ -192,8 +192,8 @@ export const AddAgent = () => {
               </div>
 
               {/* State */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   State <span className="text-danger">*</span>
                 </label>
                 <select
@@ -216,8 +216,8 @@ export const AddAgent = () => {
 
               {/* District */}
               {selectedState && (
-                <div className="mb-4">
-                  <label className="form-label">
+                <div className="mb-4 bg-white">
+                  <label className="form-label bg-white">
                     District <span className="text-danger">*</span>
                   </label>
                   <select
@@ -237,8 +237,8 @@ export const AddAgent = () => {
               )}
 
               {/* Pincode */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Pincode <span className="text-danger">*</span>
                 </label>
                 <input
@@ -256,8 +256,8 @@ export const AddAgent = () => {
               </div>
 
               {/* Address */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Address <span className="text-danger">*</span>
                 </label>
                 <input
@@ -271,8 +271,8 @@ export const AddAgent = () => {
               </div>
 
               {/* Photo Upload */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Photo <span className="text-danger">*</span>
                 </label>
                 <input
@@ -287,7 +287,7 @@ export const AddAgent = () => {
                   <img
                     src={photo}
                     alt="profile"
-                    className="mt-2 rounded shadow-sm"
+                    className="mt-2 rounded shadow-sm bg-white"
                     height={100}
                     width={100}
                     style={{ objectFit: "cover" }}
@@ -296,8 +296,8 @@ export const AddAgent = () => {
               </div>
 
               {/* KYC Document */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Upload Aadhaar <span className="text-danger">*</span>
                 </label>
                 <input
@@ -312,7 +312,7 @@ export const AddAgent = () => {
                   <img
                     src={kycDocument}
                     alt="KYC"
-                    className="mt-2 rounded shadow-sm"
+                    className="mt-2 rounded shadow-sm bg-white"
                     height={100}
                     width={100}
                     style={{ objectFit: "cover" }}
@@ -321,8 +321,8 @@ export const AddAgent = () => {
               </div>
 
               {/* Password */}
-              <div className="mb-4">
-                <label className="form-label">
+              <div className="mb-4 bg-white">
+                <label className="form-label bg-white">
                   Password <span className="text-danger">*</span>
                 </label>
                 <input

@@ -173,11 +173,11 @@ export const DisplayData = () => {
         {/* Buttons Bulk uploads and downloadlist */}
         <div className="col-md-12 text-md-end text-center mt-3">
           <Link to="/bulk-upload" className="btn btn-success m-1">
-            <i className="bi bi-file-earmark-arrow-up"></i> Add Bulk Volunteers
+            <i className="bi bi-file-earmark-arrow-up bg-success"></i> Add Bulk Volunteers
           </Link>
           <button
             onClick={downloadExcel}
-            className="btn btn-outline-success m-1"
+            className="btn btn-outline-success m-1 bg-light text-success"
           >
             <i className="bi bi-file-earmark-arrow-down"></i> Download List
           </button>

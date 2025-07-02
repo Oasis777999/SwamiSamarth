@@ -43,62 +43,62 @@ const Sidebar = () => {
           } d-md-flex`}
           style={{ width: "250px", zIndex: 1050 }}
         >
-          <div>
+          <div className="bg-darkBlue">
             <img
               src={logo}
               alt="Logo"
               height="100"
               width="100"
-              className="img-fluid"
+              className="img-fluid bg-darkBlue"
             />
           </div>
-          <ul className="nav nav-pills flex-column mb-auto gap-2">
-            <li className="nav-item ">
+          <ul className="nav nav-pills flex-column mb-auto gap-2 bg-darkBlue">
+            <li className=" bg-darkBlue">
               <Link
-                to="/add-agent"
+                to="/data"
                 className="nav-link text-light d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
-                <i className="bi bi-person-plus-fill"></i> Add Agent
+                <i className="bi bi-table bg-darkBlue"></i>Volontiers List
               </Link>
             </li>
-            <li>
-              <Link
-                to="/data"
-                className="nav-link text-light  d-flex align-items-center gap-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <i className="bi bi-table"></i>Volontiers List
-              </Link>
-            </li>
-            <li>
+            <li className=" bg-darkBlue">
               <Link
                 to="/agent-data"
                 className="nav-link text-light d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
-                <i className="bi bi-table"></i>Agent List
+                <i className="bi bi-table bg-darkBlue"></i>Agent List
               </Link>
             </li>
-            <li>
+            <li className=" bg-darkBlue">
               <Link
                 to="/reports"
                 className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
-                <i className="bi bi-graph-up"></i> Reports
+                <i className="bi bi-graph-up bg-darkBlue"></i> Reports
               </Link>
             </li>
-            <li>
+            <li className=" bg-darkBlue">
               <Link
                 to="/profile"
                 className="nav-link text-light  d-flex align-items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
-                <i className="bi bi-person-circle"></i> Profile
+                <i className="bi bi-person-circle bg-darkBlue"></i> Profile
               </Link>
             </li>
-            <li>
+            <li className=" bg-darkBlue">
+              <Link
+                to="/add-agent"
+                className="nav-link text-light d-flex align-items-center gap-2"
+                onClick={() => setIsOpen(false)}
+              >
+                <i className="bi bi-person-plus-fill bg-darkBlue"></i> Add Agent
+              </Link>
+            </li>
+            <li className="nav-item bg-darkBlue">
               <Link
                 to="/login"
                 className="nav-link text-light  d-flex align-items-center gap-2"
@@ -107,7 +107,7 @@ const Sidebar = () => {
                   LogOut();
                 }}
               >
-                <i className="bi bi-box-arrow-right"></i> Log Out
+                <i className="bi bi-box-arrow-right bg-darkBlue"></i> Log Out
               </Link>
             </li>
           </ul>

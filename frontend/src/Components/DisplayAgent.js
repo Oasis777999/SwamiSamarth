@@ -172,7 +172,7 @@ export const DisplayAgent = () => {
                     className="btn btn-sm btn-danger"
                     onClick={() => handleDelete(item._id)}
                   >
-                    <i class="bi bi-trash"></i>
+                    <i class="bi bi-trash bg-danger"></i>
                     Delete
                   </button>
                 </td>

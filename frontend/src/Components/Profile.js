@@ -36,8 +36,8 @@ const Profile = () => {
               <div className="row gy-3">
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Age</h6>
-                    <p className="mb-0 fw-semibold">{user.dob && !isNaN(new Date(user.dob).getTime())
+                    <h6 className="text-muted bg-lightBlue">Age</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.dob && !isNaN(new Date(user.dob).getTime())
                     ? new Date(user.dob).toLocaleDateString("en-GB")
                     : "N/A"}</p>
                   </div>
@@ -45,51 +45,51 @@ const Profile = () => {
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Gender</h6>
-                    <p className="mb-0 fw-semibold">{user.gender}</p>
+                    <h6 className="text-muted bg-lightBlue">Gender</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.gender}</p>
                   </div>
                 </div>
 
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Mobile</h6>
-                    <p className="mb-0 fw-semibold">{user.mobile}</p>
+                    <h6 className="text-muted bg-lightBlue">Mobile</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.mobile}</p>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Country</h6>
-                    <p className="mb-0 fw-semibold">{user.country}</p>
+                    <h6 className="text-muted bg-lightBlue">Country</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.country}</p>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">State</h6>
-                    <p className="mb-0 fw-semibold">{user.state}</p>
+                    <h6 className="text-muted bg-lightBlue">State</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.state}</p>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">District</h6>
-                    <p className="mb-0 fw-semibold">{user.district}</p>
+                    <h6 className="text-muted bg-lightBlue">District</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.district}</p>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Pincode</h6>
-                    <p className="mb-0 fw-semibold">{user.pincode}</p>
+                    <h6 className="text-muted bg-lightBlue">Pincode</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.pincode}</p>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="bg-lightBlue rounded-3 p-3 h-100">
-                    <h6 className="text-muted">Address</h6>
-                    <p className="mb-0 fw-semibold">{user.address}</p>
+                    <h6 className="text-muted bg-lightBlue">Address</h6>
+                    <p className="mb-0 fw-semibold bg-lightBlue">{user.address}</p>
                   </div>
                 </div>
               </div>

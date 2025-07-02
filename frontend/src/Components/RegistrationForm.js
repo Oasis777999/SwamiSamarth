@@ -104,23 +104,23 @@ export const RegistrationForm = () => {
                 alt="Logo"
                 height="100"
                 width="100"
-                className="img-fluid"
+                className="img-fluid bg-lightBlue"
               />
             </div>
-            <div>
-              <h3 className="mb-1 text-warning fw-bold">Dindoripranit</h3>
-              <p className="mb-1 text-muted">Shree Swami Samarth Seva Marg</p>
-              <h4 className="mb-0 text-secondary fst-italic fs-6">
+            <div className="bg-lightBlue">
+              <h3 className="mb-1 text-danger fw-bold bg-lightBlue">Dindoripranit</h3>
+              <p className="mb-1 text-muted bg-lightBlue">Shree Swami Samarth Seva Marg</p>
+              <h4 className="mb-0 text-secondary fst-italic fs-6 bg-lightBlue">
                 Akhil Bhartiya Shree Swami Samarth Gurupeeth
               </h4>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className=" bg-white">
           {/* Name */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               Full Name <span className="text-danger">*</span>
             </label>
             <input
@@ -134,8 +134,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* DOB */}
-          <div className="mb-4">
-            <label className="form-label">Date of Birth</label>
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">Date of Birth</label>
             <input
               type="date"
               className="form-control"
@@ -146,8 +146,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* Gender */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               Gender <span className="text-danger">*</span>
             </label>
             <select
@@ -166,8 +166,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* Mobile */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               Mobile <span className="text-danger">*</span>
             </label>
             <input
@@ -184,8 +184,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* State & District */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               State <span className="text-danger">*</span>
             </label>
             <select
@@ -206,8 +206,8 @@ export const RegistrationForm = () => {
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               District <span className="text-danger">*</span>
             </label>
             <select
@@ -227,8 +227,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* Pincode & Address */}
-          <div className=" mb-4">
-            <label className="form-label">
+          <div className=" mb-4 bg-white">
+            <label className="form-label bg-white">
               Pincode <span className="text-danger">*</span>
             </label>
             <input
@@ -244,8 +244,8 @@ export const RegistrationForm = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4  bg-white">
+            <label className="form-label bg-white">
               Address <span className="text-danger">*</span>
             </label>
             <input
@@ -259,8 +259,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* Photo */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4 bg-white">
+            <label className="form-label bg-white">
               Upload Photo <span className="text-danger">*</span>
             </label>
             <input
@@ -274,7 +274,7 @@ export const RegistrationForm = () => {
               <img
                 src={photo}
                 alt="preview"
-                className="mt-2 rounded shadow-sm"
+                className="mt-2  bg-white"
                 height={100}
                 width={100}
               />
@@ -282,8 +282,8 @@ export const RegistrationForm = () => {
           </div>
 
           {/* Aadhaar */}
-          <div className="mb-4">
-            <label className="form-label">
+          <div className="mb-4  bg-white">
+            <label className="form-label  bg-white">
               Upload Aadhaar <span className="text-danger">*</span>
             </label>
             <input
@@ -297,14 +297,14 @@ export const RegistrationForm = () => {
               <img
                 src={kycDocument}
                 alt="preview"
-                className="mt-2 rounded shadow-sm"
+                className="mt-2 rounded  bg-white"
                 height={100}
                 width={100}
               />
             )}
           </div>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-4  bg-white">
             <button type="submit" className="btn btn-primary px-4 py-2">
               Submit
             </button>
