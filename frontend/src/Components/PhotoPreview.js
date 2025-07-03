@@ -9,8 +9,8 @@ const PhotoPreview = ({ item }) => {
   const handleClose = () => setShow(false);
 
   return (
-    <>
-      <td className="text-center">
+    < >
+      <td className="text-center bg-white">
         <img
           src={item}
           alt="KYC"
@@ -22,11 +22,11 @@ const PhotoPreview = ({ item }) => {
         />
       </td>
 
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Preview</Modal.Title>
+      <Modal show={show} onHide={handleClose} centered >
+        <Modal.Header closeButton className='bg-white'>
+          <Modal.Title className='bg-white'>Preview</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="text-center">
+        <Modal.Body className="text-center bg-white">
           <img
             src={item}
             alt="Full KYC"
