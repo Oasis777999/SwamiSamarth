@@ -51,7 +51,7 @@ const Sidebar = () => {
               width="100"
               className="img-fluid bg-darkBlue"
             />
-            <h1 className="bg-darkBlue text-warning">Dindoripranit</h1>
+            <h2 className="bg-darkBlue text-warning">Dindoripranit</h2>
           </div>
           <ul className="nav nav-pills flex-column mb-auto gap-2 bg-darkBlue">
             <li className=" bg-darkBlue">
