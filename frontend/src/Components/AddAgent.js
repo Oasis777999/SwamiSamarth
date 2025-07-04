@@ -33,8 +33,17 @@ export const AddAgent = () => {
   };
 
   function converToBase64Photo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const maxSize = 200 * 1024;
+
+    if (file.size > maxSize) {
+      alert("File size must be less than or equal to 200 KB.");
+      setPhoto(null);
+      return;
+    }
     var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = () => {
       setPhoto(reader.result);
       console.log(reader.result);
@@ -45,8 +54,17 @@ export const AddAgent = () => {
   }
 
   function converToBase64kycDocument(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const maxSize = 200 * 1024;
+
+    if (file.size > maxSize) {
+      alert("File size must be less than or equal to 200 KB.");
+      setkycDocument(null);
+      return;
+    }
     var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = () => {
       setkycDocument(reader.result);
       console.log(reader.result);
@@ -112,7 +130,9 @@ export const AddAgent = () => {
                   />
                 </div>
                 <div className="bg-lightBlue">
-                  <h3 className=" text-warning fw-bold text-danger bg-lightBlue">Dindoripranit</h3>
+                  <h3 className=" text-warning fw-bold text-danger bg-lightBlue">
+                    Dindoripranit
+                  </h3>
                   <p className=" text-muted bg-lightBlue">
                     Shree Swami Samarth Seva Marg
                   </p>

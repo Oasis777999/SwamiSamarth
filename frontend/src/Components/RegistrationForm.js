@@ -34,8 +34,17 @@ export const RegistrationForm = () => {
   };
 
   function converToBase64Photo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const maxSize = 200 * 1024;
+
+    if (file.size > maxSize) {
+      alert("File size must be less than or equal to 200 KB.");
+      setPhoto(null);
+      return;
+    }
     var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = () => {
       setPhoto(reader.result);
       console.log(reader.result);
@@ -46,8 +55,17 @@ export const RegistrationForm = () => {
   }
 
   function converToBase64kycDocument(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const maxSize = 200 * 1024;
+
+    if (file.size > maxSize) {
+      alert("File size must be less than or equal to 200 KB.");
+      setkycDocument(null);
+      return;
+    }
     var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
     reader.onload = () => {
       setkycDocument(reader.result);
       console.log(reader.result);
@@ -83,8 +101,8 @@ export const RegistrationForm = () => {
       if (!response.ok) {
         throw new Error("Failed to submit form");
       }
-//       let TQMessage = await fetch(`http://sms.advaitdigital.com/api/smsapi?key=c0a386bcdce63e8ce841f9e127b2458b&route=1&sender=COOCSL&number=${formData.mobile}&sms=Dear, Rs. 10000 has been debited to your account 66. Account balance: Rs. 00. Chartered Co-Operative
-// &templateid=1707173614237110753`);
+      //       let TQMessage = await fetch(`http://sms.advaitdigital.com/api/smsapi?key=c0a386bcdce63e8ce841f9e127b2458b&route=1&sender=COOCSL&number=${formData.mobile}&sms=Dear, Rs. 10000 has been debited to your account 66. Account balance: Rs. 00. Chartered Co-Operative
+      // &templateid=1707173614237110753`);
 
       navigate("/thankyou");
       alert("Form submitted successfully");
@@ -108,8 +126,12 @@ export const RegistrationForm = () => {
               />
             </div>
             <div className="bg-lightBlue">
-              <h3 className="mb-1 text-danger fw-bold bg-lightBlue">Dindoripranit</h3>
-              <p className="mb-1 text-muted bg-lightBlue">Shree Swami Samarth Seva Marg</p>
+              <h3 className="mb-1 text-danger fw-bold bg-lightBlue">
+                Dindoripranit
+              </h3>
+              <p className="mb-1 text-muted bg-lightBlue">
+                Shree Swami Samarth Seva Marg
+              </p>
               <h4 className="mb-0 text-secondary fst-italic fs-6 bg-lightBlue">
                 Akhil Bhartiya Shree Swami Samarth Gurupeeth
               </h4>
