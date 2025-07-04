@@ -43,7 +43,7 @@ const Sidebar = () => {
           } d-md-flex`}
           style={{ width: "250px", zIndex: 1050 }}
         >
-          <div className="bg-darkBlue">
+          <div className="bg-darkBlue pb-5">
             <img
               src={logo}
               alt="Logo"
@@ -51,6 +51,7 @@ const Sidebar = () => {
               width="100"
               className="img-fluid bg-darkBlue"
             />
+            <h1 className="bg-darkBlue text-warning">Dindoripranit</h1>
           </div>
           <ul className="nav nav-pills flex-column mb-auto gap-2 bg-darkBlue">
             <li className=" bg-darkBlue">
