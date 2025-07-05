@@ -17,6 +17,11 @@ app.use(express.json());
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
 
+//Testing API
+app.get("/", (rea, res)=>{
+  res.send("Application is live");
+})
+
 //Register Agent
 app.post("/register", upload.none(), async (req, res) => {
   try {
