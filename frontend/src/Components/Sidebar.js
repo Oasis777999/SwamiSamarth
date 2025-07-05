@@ -17,6 +17,10 @@ const Sidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Check the user is admin or not
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const role = storedUser?.role;
+
   return (
     <>
       {/* Toggle button (only on mobile) */}
@@ -63,15 +67,17 @@ const Sidebar = () => {
                 <i className="bi bi-table bg-darkBlue"></i>Volontiers List
               </Link>
             </li>
-            <li className=" bg-darkBlue">
-              <Link
-                to="/agent-data"
-                className="nav-link text-light d-flex align-items-center gap-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <i className="bi bi-table bg-darkBlue"></i>Agent List
-              </Link>
-            </li>
+            {role && (
+              <li className=" bg-darkBlue">
+                <Link
+                  to="/agent-data"
+                  className="nav-link text-light d-flex align-items-center gap-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <i className="bi bi-table bg-darkBlue"></i>Agent List
+                </Link>
+              </li>
+            )}
             <li className=" bg-darkBlue">
               <Link
                 to="/reports"
@@ -90,15 +96,18 @@ const Sidebar = () => {
                 <i className="bi bi-person-circle bg-darkBlue"></i> Profile
               </Link>
             </li>
-            <li className=" bg-darkBlue">
-              <Link
-                to="/add-agent"
-                className="nav-link text-light d-flex align-items-center gap-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <i className="bi bi-person-plus-fill bg-darkBlue"></i> Add Agent
-              </Link>
-            </li>
+            {role && (
+              <li className=" bg-darkBlue">
+                <Link
+                  to="/add-agent"
+                  className="nav-link text-light d-flex align-items-center gap-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <i className="bi bi-person-plus-fill bg-darkBlue"></i> Add
+                  Agent
+                </Link>
+              </li>
+            )}
             <li className="nav-item bg-darkBlue">
               <Link
                 to="/login"

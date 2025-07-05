@@ -112,6 +112,7 @@ app.post("/login", async (req, res) => {
         district: result.district,
         pincode: result.pincode,
         photo: result.photo,
+        role:result.isAdmin
       },
     });
   } catch (err) {
