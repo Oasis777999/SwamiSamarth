@@ -26,7 +26,7 @@ const Sidebar = () => {
       {/* Toggle button (only on mobile) */}
       {isLogin && (
         <button
-          className="btn btn-light rounded-circle shadow d-md-none position-fixed top-0 end-0 m-3"
+          className="btn btn-light  shadow d-md-none position-fixed top-0 end-0 m-3"
           onClick={toggleSidebar}
           aria-label="Toggle Sidebar"
           style={{

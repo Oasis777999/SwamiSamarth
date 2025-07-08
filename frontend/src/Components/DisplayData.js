@@ -160,7 +160,7 @@ export const DisplayData = () => {
 
         {/* Reset Filter */}
         <button
-          className="btn btn-outline-primary col-md-1 mb-2 mb-md-0 fs-5"
+          className="btn btn-outline-primary col-md-1 mb-2 mb-md-0 fs-5 bg-light text-primary"
           onClick={() => {
             setSelectedState("");
             setSelectedDistrict("");
