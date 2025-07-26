@@ -5,7 +5,6 @@ const User = require("./Models/User.js");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
 
-
 require('dotenv').config();
 require("./connect.js");
 

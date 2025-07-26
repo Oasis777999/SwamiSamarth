@@ -23,14 +23,14 @@ function App() {
             <Route path="/agent-data" element={<DisplayAgent />}></Route>
             <Route path="/add-agent" element={<AddAgent />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/bulk-upload" element={<UploadExel/>}></Route>
-            <Route path="/reports" element={<Report/>}></Route>
+            <Route path="/bulk-upload" element={<UploadExel />}></Route>
+            <Route path="/reports" element={<Report />}></Route>
           </Route>
           <Route path="/" element={<RegistrationForm />}></Route>
           <Route path="/thankyou" element={<ThankYou />}></Route>
           <Route path="/login" element={<Login />}></Route>
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

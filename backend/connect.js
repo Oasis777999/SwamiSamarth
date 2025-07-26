@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const createDefaultAdmin = require("./utils/seedAdmin");
 
 const DB = process.env.DATABASE;
 
@@ -9,6 +10,7 @@ if (!DB) {
 
 mongoose.connect(DB)
   .then(() => {
+    createDefaultAdmin();
     console.log("✅ Connected to MongoDB");
   })
   .catch((err) => {

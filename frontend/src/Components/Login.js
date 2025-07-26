@@ -92,7 +92,7 @@ const Login = () => {
         <div className="text-center mt-3 bg-white">
           <small className="text-muted bg-white">
             Don't have an account?{" "}
-            <a href="#" className="text-decoration-none bg-white">
+            <a href="/signup" className="text-decoration-none bg-white">
               Sign Up
             </a>
           </small>
