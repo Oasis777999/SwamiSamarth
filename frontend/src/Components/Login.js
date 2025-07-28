@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../Images/Logo.png";
+import api from "../apis/api";
 
 const Login = () => {
   const [mobile, setMobile] = useState("");
@@ -9,23 +10,19 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    let result = await fetch("http://localhost:5000/login", {
-      method: "post",
-      body: JSON.stringify({ mobile, password }),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    try {
+      const response = await api.post("/login", { mobile, password });
 
-    result = await result.json();
-    console.log(result);
-    if (!result.error) {
+      console.log(response);
+
+      const result = response.data;
+
       localStorage.setItem("user", JSON.stringify(result.user));
       localStorage.setItem("token", result.token);
       navigate("/data");
-      alert(result.message);
-    } else {
-      alert(result.error);
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert(error.response?.data?.error || "Login failed. Please try again.");
     }
   };
 
@@ -43,7 +40,9 @@ const Login = () => {
             width="100"
             className="img-fluid bg-lightBlue"
           />
-          <h3 className="fw-bold text-danger mt-2 bg-lightBlue">Welcome Back</h3>
+          <h3 className="fw-bold text-danger mt-2 bg-lightBlue">
+            Welcome Back
+          </h3>
           <p className="text-muted small bg-lightBlue">Login to your account</p>
         </div>
 
@@ -92,7 +91,7 @@ const Login = () => {
         <div className="text-center mt-3 bg-white">
           <small className="text-muted bg-white">
             Don't have an account?{" "}
-            <a href="/signup" className="text-decoration-none bg-white">
+            <a href="/login" className="text-decoration-none bg-white">
               Sign Up
             </a>
           </small>

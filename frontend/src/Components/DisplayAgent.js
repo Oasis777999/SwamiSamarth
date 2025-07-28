@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import PhotoPreview from "./PhotoPreview";
+import api from "../apis/api";
 
 export const DisplayAgent = () => {
   const [tableData, setTableData] = useState([]);
@@ -9,8 +10,8 @@ export const DisplayAgent = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const getData = async () => {
-    let result = await fetch("http://localhost:5000/agent-data");
-    let data = await result.json();
+    let result = await api.get("/agent-data");
+    let data = result.data;
     setTableData(data);
     setFilteredData(data);
   };
@@ -29,8 +30,8 @@ export const DisplayAgent = () => {
 
   const downloadExcel = async () => {
     try {
-      const response = await fetch("http://localhost:5000/agent-data"); // your API
-      const data = await response.json();
+      const response = await api.get("/agent-data"); // your API
+      let data = response.data;
 
       console.log("Filtered Data : ", data);
 
@@ -64,14 +65,7 @@ export const DisplayAgent = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/agent-delete/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to delete");
-      }
+      const res = await api.delete(`/agent-delete/${id}`);
 
       // Optional: show success message
       alert("Agent deleted successfully");
@@ -102,7 +96,7 @@ export const DisplayAgent = () => {
   return (
     <div className="container py-5">
       {/* Header: Download + Search */}
-      <div className="row align-items-center mb-4">
+      <div className="row sticky-top align-items-center py-4">
         <div className="col-md-6 mb-2 mb-md-0">
           <input
             type="text"
@@ -172,7 +166,7 @@ export const DisplayAgent = () => {
                     className="btn btn-sm btn-danger"
                     onClick={() => handleDelete(item._id)}
                   >
-                    <i class="bi bi-trash bg-danger"></i>
+                    <i className="bi bi-trash bg-danger"></i>
                     Delete
                   </button>
                 </td>

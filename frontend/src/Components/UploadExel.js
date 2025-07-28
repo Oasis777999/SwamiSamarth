@@ -1,6 +1,7 @@
 import * as XLSX from "xlsx";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../apis/api";
 
 export const UploadExel = () => {
   const [agentsFromExcel, setAgentsFromExcel] = useState([]);
@@ -21,15 +22,9 @@ export const UploadExel = () => {
 
   const handleBulkSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:5000/bulk-upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(agentsFromExcel),
-      });
+      const response = await api.post("/bulk-upload", agentsFromExcel);
 
-      const result = await res.json();
       alert("Volunteers uploaded successfully!");
-      console.log(result);
     } catch (err) {
       console.error("Upload failed:", err);
       alert("Error uploading Volunteers, Please chekck excel sheet formate!");
@@ -64,13 +59,13 @@ export const UploadExel = () => {
                   onClick={handleBulkSubmit}
                   className="btn btn-success w-100"
                 >
-                  <i className="bi bi-upload"></i> Submit{" "}
-                  {agentsFromExcel.length} Agents
+                  <i className="bi bi-upload bg-success "></i> Submit{" "}
+                  {agentsFromExcel.length + 1} Agents
                 </button>
               </div>
               <div className="col-12 col-md-auto">
                 <Link to="/data" className="btn btn-info w-100">
-                  <i className="bi bi-eye"></i> See Updated List
+                  <i className="bi bi-eye bg-info"></i> See Updated List
                 </Link>
               </div>
             </div>

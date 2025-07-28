@@ -9,8 +9,8 @@ const PhotoPreview = ({ item }) => {
   const handleClose = () => setShow(false);
 
   return (
-    < >
-      <td className="text-center bg-white">
+    <div >
+      <div className="text-center bg-white">
         <img
           src={item}
           alt="KYC"
@@ -20,7 +20,7 @@ const PhotoPreview = ({ item }) => {
           style={{ objectFit: 'cover', cursor: 'pointer' }}
           onClick={handleOpen}
         />
-      </td>
+      </div>
 
       <Modal show={show} onHide={handleClose} centered >
         <Modal.Header closeButton className='bg-white'>
@@ -39,7 +39,7 @@ const PhotoPreview = ({ item }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

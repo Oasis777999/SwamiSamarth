@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import api from '../apis/api';
 
 const Report = () => {
   const [tableData, setTableData] = useState([]);
@@ -8,8 +9,8 @@ const Report = () => {
   // Fetch data from the backend
   const getData = async () => {
     try {
-      const result = await fetch("http://localhost:5000/data");
-      const data = await result.json();
+      const result = await api.get("/data");
+      const data = result.data
       setTableData(data);
     } catch (error) {
       console.error("Error fetching data:", error);

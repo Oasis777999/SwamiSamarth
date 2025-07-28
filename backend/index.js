@@ -41,15 +41,11 @@ app.post("/register", upload.none(), async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({ mobile });
     if (existingUser) {
-      return res.status(400).json({ error: "User is already registered" });
+      return res.status(400).json({ error: "User is already registered, Check Mobile Number!" });
     }
 
-        console.log(password);
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    console.log(hashedPassword, password);
-    
+    const hashedPassword = await bcrypt.hash(password, 10);    
 
     // Create new user
     const newUser = new User({
@@ -71,7 +67,7 @@ app.post("/register", upload.none(), async (req, res) => {
 
     // Remove password before sending response
     const { password: _, ...userData } = newUser.toObject();
-    res.status(201).json({ data: userData });
+    res.status(201).json({message : "User registred successfylly", data: userData });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ error: "Server error during registration" });
@@ -83,9 +79,10 @@ const JWT = require("jsonwebtoken");
 
 app.post("/login", async (req, res) => {
   try {
-    const { mobile, password } = req.body;
+    const { mobile, password } = req.body;    
 
     const result = await User.findOne({ mobile });
+    
 
     if (!result) {
       return res.status(404).json({ error: "User is not registered" });
@@ -101,6 +98,7 @@ app.post("/login", async (req, res) => {
       "Rushikesh", // Use env variable in production
       { expiresIn: "1d" }
     );
+    
 
     res.status(200).json({
       message: "Login success",
@@ -154,8 +152,6 @@ app.post("/upload", upload.none(), async (req, res) => {
       photo,
       kycDocument,
     });
-
-    console.log(data);
 
     await data.save();
     res.status(200).json({ message: "Data saved with images", data: data });

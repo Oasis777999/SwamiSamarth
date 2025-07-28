@@ -4,6 +4,7 @@ import { saveAs } from "file-saver";
 import { Link } from "react-router-dom";
 import locationData from "../State.json";
 import PhotoPreview from "./PhotoPreview";
+import api from "../apis/api";
 
 export const DisplayData = () => {
   const [tableData, setTableData] = useState([]);
@@ -13,8 +14,8 @@ export const DisplayData = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
 
   const getData = async () => {
-    let result = await fetch("http://localhost:5000/data");
-    let data = await result.json();
+    let result = await api.get("/data");
+    let data =  result.data
     setTableData(data);
     setFilteredData(data);
   };
@@ -109,7 +110,7 @@ export const DisplayData = () => {
   return (
     <div className="container py-5">
       {/* Header: Download + Search */}
-      <div className="row align-items-center mb-4">
+      <div className="row sticky-top align-items-center mb-4 pt-5">
         {/* Search Input */}
         <div className="col-md-5 mb-2 mb-md-0">
           <input

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import stateData from "../State.json";
 import logo from "../Images/Logo.png";
+import api from "../apis/api";
+import { useEffect } from "react";
 
 export const AddAgent = () => {
   const [formData, setFormData] = useState({
     name: "",
-    age: "",
     mobile: "",
     dob: "",
     gender: "",
@@ -46,7 +47,6 @@ export const AddAgent = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setPhoto(reader.result);
-      console.log(reader.result);
     };
     reader.onerror = (error) => {
       console.log("Error : ", error);
@@ -67,7 +67,6 @@ export const AddAgent = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setkycDocument(reader.result);
-      console.log(reader.result);
     };
     reader.onerror = (error) => {
       console.log("Error : ", error);
@@ -82,7 +81,6 @@ export const AddAgent = () => {
 
       // Append all form fields
       submissionData.append("name", formData.name);
-      submissionData.append("age", formData.age);
       submissionData.append("gender", formData.gender);
       submissionData.append("dob", formData.dob);
       submissionData.append("mobile", formData.mobile);
@@ -94,25 +92,27 @@ export const AddAgent = () => {
       submissionData.append("kycDocument", kycDocument);
       submissionData.append("password", formData.password);
 
-      let response = await fetch("http://localhost:5000/register", {
-        method: "POST",
-        body: submissionData,
-      });
+      // 🔍 Validate that no value is empty/null/undefined
+      for (let [key, value] of submissionData.entries()) {
+        if (!value || value=="null") {
+          alert(`Please fill in the field "${key}" `);
+          return; // Stop submission
+        }
+      }
 
-      response = await response.json();
+      const response = await api.post("/register", submissionData);
 
-      console.log(response);
-
-      if (response.message) {
-        alert(response.message);
-      } else {
-        alert(response.error);
+      if (response) {
+        alert(response.data.message);
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      const errorMessage =
+        error.response?.data?.error || "Registration failed. Please try again.";
+      alert(errorMessage);
     }
   };
 
+  useEffect(() => {}, []);
   return (
     <div className="container py-5">
       <div className="row  justify-content-center">
@@ -303,7 +303,8 @@ export const AddAgent = () => {
                   onChange={converToBase64Photo}
                   required
                 />
-                {photo && (
+
+                {photo ? (
                   <img
                     src={photo}
                     alt="profile"
@@ -312,6 +313,10 @@ export const AddAgent = () => {
                     width={100}
                     style={{ objectFit: "cover" }}
                   />
+                ) : (
+                  <p class="text-danger small fst-italic mt-2 text-start bg-white">
+                    Image size limit: 200KB
+                  </p>
                 )}
               </div>
 
@@ -328,7 +333,8 @@ export const AddAgent = () => {
                   onChange={converToBase64kycDocument}
                   required
                 />
-                {kycDocument && (
+
+                {kycDocument ? (
                   <img
                     src={kycDocument}
                     alt="KYC"
@@ -337,6 +343,10 @@ export const AddAgent = () => {
                     width={100}
                     style={{ objectFit: "cover" }}
                   />
+                ) : (
+                  <p class="text-danger small fst-italic mt-2 text-start bg-white">
+                    Image size limit: 200KB
+                  </p>
                 )}
               </div>
 

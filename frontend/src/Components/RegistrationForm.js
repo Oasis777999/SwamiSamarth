@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import stateData from "../State.json";
 import logo from "../Images/Logo.png";
+import api from "../apis/api";
 
 export const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,6 @@ export const RegistrationForm = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setPhoto(reader.result);
-      console.log(reader.result);
     };
     reader.onerror = (error) => {
       console.log("Error : ", error);
@@ -68,7 +68,6 @@ export const RegistrationForm = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setkycDocument(reader.result);
-      console.log(reader.result);
     };
     reader.onerror = (error) => {
       console.log("Error : ", error);
@@ -93,19 +92,19 @@ export const RegistrationForm = () => {
       submissionData.append("photo", photo);
       submissionData.append("kycDocument", kycDocument);
 
-      const response = await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: submissionData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
+      for (let [key, value] of submissionData.entries()) {
+        if (!value || value == "null") {
+          alert(`Please fill in the field "${key}" `);
+          return; // Stop submission
+        }
       }
-      //       let TQMessage = await fetch(`http://sms.advaitdigital.com/api/smsapi?key=c0a386bcdce63e8ce841f9e127b2458b&route=1&sender=COOCSL&number=${formData.mobile}&sms=Dear, Rs. 10000 has been debited to your account 66. Account balance: Rs. 00. Chartered Co-Operative
-      // &templateid=1707173614237110753`);
+
+      const response = await api.post("/upload", submissionData);
 
       navigate("/thankyou");
       alert("Form submitted successfully");
+      //       let TQMessage = await fetch(`http://sms.advaitdigital.com/api/smsapi?key=c0a386bcdce63e8ce841f9e127b2458b&route=1&sender=COOCSL&number=${formData.mobile}&sms=Dear, Rs. 10000 has been debited to your account 66. Account balance: Rs. 00. Chartered Co-Operative
+      // &templateid=1707173614237110753`);
     } catch (error) {
       alert("Something went wrong. Please try again.");
     }
@@ -292,7 +291,7 @@ export const RegistrationForm = () => {
               onChange={converToBase64Photo}
               required
             />
-            {photo && (
+            {photo ? (
               <img
                 src={photo}
                 alt="preview"
@@ -300,6 +299,10 @@ export const RegistrationForm = () => {
                 height={100}
                 width={100}
               />
+            ) : (
+              <p class="text-danger small fst-italic mt-2 text-start bg-white">
+                Image size limit: 200KB
+              </p>
             )}
           </div>
 
@@ -315,7 +318,7 @@ export const RegistrationForm = () => {
               onChange={converToBase64kycDocument}
               required
             />
-            {kycDocument && (
+            {kycDocument ? (
               <img
                 src={kycDocument}
                 alt="preview"
@@ -323,6 +326,10 @@ export const RegistrationForm = () => {
                 height={100}
                 width={100}
               />
+            ) : (
+              <p class="text-danger small fst-italic mt-2 text-start bg-white">
+                Image size limit: 200KB
+              </p>
             )}
           </div>
 
