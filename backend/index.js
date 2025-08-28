@@ -4,6 +4,9 @@ const PersonData = require("./Models/PersonMode.js");
 const User = require("./Models/User.js");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
+const cron = require('node-cron');
+const {checkAndSendBirthdaySMS} = require("./utils/birthdayService.js");
+const PORT = 5000;
 
 require('dotenv').config();
 require("./connect.js");
@@ -15,6 +18,11 @@ app.use(express.json());
 
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+
+//Send SMS
+cron.schedule('49 11 * * *', ()=>{
+  checkAndSendBirthdaySMS();
+})
 
 //Testing API
 app.get("/", (rea, res)=>{
@@ -233,7 +241,6 @@ app.put("/agent-update/:id", async (req, res) => {
 });
 
 // Start server
-const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
