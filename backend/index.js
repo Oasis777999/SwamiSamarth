@@ -19,10 +19,11 @@ app.use(express.json());
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
 
-//Send SMS
-cron.schedule('49 11 * * *', ()=>{
+//Send SMS using api
+cron.schedule('00 12 * * *', ()=>{
   checkAndSendBirthdaySMS();
 })
+
 
 //Testing API
 app.get("/", (rea, res)=>{
