@@ -7,7 +7,7 @@ const PersonSchema = new mongoose.Schema({
   },
   dob: {
     type: Date,
-    required: true,
+    // required: true,
   },
   gender: {
     type: String,
@@ -40,11 +40,11 @@ const PersonSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    required: true, // Must have uploaded photo file path
+    // required: true, // Must have uploaded photo file path
   },
   kycDocument: {
     type: String,
-    required: true, // Must have uploaded KYC file path
+    // required: true, // Must have uploaded KYC file path
   },
 });
 

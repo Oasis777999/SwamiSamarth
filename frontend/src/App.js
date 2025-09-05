@@ -12,6 +12,7 @@ import { DisplayAgent } from "./Components/DisplayAgent";
 import { UploadExel } from "./Components/UploadExel";
 import Footer from "./Components/Footer";
 import Report from "./Components/Report";
+import { UpdateAgent } from "./Components/UpdateAgent";
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
             <Route path="/data" element={<DisplayData />}></Route>
             <Route path="/agent-data" element={<DisplayAgent />}></Route>
             <Route path="/add-agent" element={<AddAgent />}></Route>
+            <Route path="/update/:agentId" element={<UpdateAgent />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/bulk-upload" element={<UploadExel />}></Route>
             <Route path="/reports" element={<Report />}></Route>

@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/login", { mobile, password });
+      const response = await api.post("/user/login", { mobile, password });
 
       console.log(response);
 

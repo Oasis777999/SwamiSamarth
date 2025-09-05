@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Pie, Bar } from 'react-chartjs-2';
-import 'chart.js/auto';
-import api from '../apis/api';
+import React, { useEffect, useState } from "react";
+import { Pie, Bar } from "react-chartjs-2";
+import "chart.js/auto";
+import api from "../apis/api";
 
 const Report = () => {
   const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Fetch data from the backend
   const getData = async () => {
     try {
-      const result = await api.get("/data");
-      const data = result.data
+      setLoading(true);
+      const result = await api.get("/person/report");
+      const data = result.data;
       setTableData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,8 +41,8 @@ const Report = () => {
   const createPieData = (counts, label) => {
     const labels = Object.keys(counts);
     const values = Object.values(counts);
-    const colors = labels.map(() =>
-      `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+    const colors = labels.map(
+      () => `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
     );
 
     return {
@@ -64,8 +68,8 @@ const Report = () => {
         {
           label: "Number of Users",
           data: values,
-          backgroundColor: 'rgba(228, 142, 29, 0.93)',
-          borderColor: 'rgb(255, 169, 39)',
+          backgroundColor: "rgba(228, 142, 29, 0.93)",
+          borderColor: "rgb(255, 169, 39)",
           borderWidth: 1,
         },
       ],
@@ -82,47 +86,54 @@ const Report = () => {
 
   return (
     <div className="container pt-5">
-      <h2 className="text-center mb-4">User Demographics Overview</h2>
-
-      {/* Pie Charts Row */}
-      <div className="row mb-5">
-        <div className="col-md-6 d-flex flex-column align-items-center">
-          <h5 className="mb-3">User Distribution by State (Pie Chart)</h5>
-          <div style={{ width: '100%', maxWidth: '400px' }}>
-            <Pie data={statePieData} />
+      <h1>Report</h1>
+      {loading ? (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <div>
+          {" "}
+          {/* Pie Charts Row */}
+          <div className="row mb-5">
+            <div className="col-md-6 d-flex flex-column align-items-center">
+              <h5 className="mb-3">User Distribution by State (Pie Chart)</h5>
+              <div style={{ width: "100%", maxWidth: "400px" }}>
+                <Pie data={statePieData} />
+              </div>
+            </div>
+            <div className="col-md-6 d-flex flex-column align-items-center">
+              <h5 className="mb-3">User Distribution by Gender (Pie Chart)</h5>
+              <div style={{ width: "100%", maxWidth: "400px" }}>
+                <Pie data={genderPieData} />
+              </div>
+            </div>
+          </div>
+          {/* Bar Chart Row */}
+          <div className="row">
+            <div className="col-12 d-flex flex-column align-items-center">
+              <h5 className="mb-3">User Count per State (Bar Chart)</h5>
+              <div style={{ width: "100%", maxWidth: "800px" }}>
+                <Bar
+                  data={stateBarData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: { display: false },
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="col-md-6 d-flex flex-column align-items-center">
-          <h5 className="mb-3">User Distribution by Gender (Pie Chart)</h5>
-          <div style={{ width: '100%', maxWidth: '400px' }}>
-            <Pie data={genderPieData} />
-          </div>
-        </div>
-      </div>
-
-      {/* Bar Chart Row */}
-      <div className="row">
-        <div className="col-12 d-flex flex-column align-items-center">
-          <h5 className="mb-3">User Count per State (Bar Chart)</h5>
-          <div style={{ width: '100%', maxWidth: '800px' }}>
-            <Bar
-              data={stateBarData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: { display: false },
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1 },
-                  },
-                },
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

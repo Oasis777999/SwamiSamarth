@@ -5,10 +5,14 @@ import api from "../apis/api";
 
 export const UploadExel = () => {
   const [agentsFromExcel, setAgentsFromExcel] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleExcelUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      alert("Please select a file first.");
+      return;
+    }
 
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
@@ -16,18 +20,37 @@ export const UploadExel = () => {
     const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
     // Optional: validate required fields here
-    console.log("Parsed Excel Data:", jsonData);
     setAgentsFromExcel(jsonData);
   };
 
-  const handleBulkSubmit = async () => {
-    try {
-      const response = await api.post("/bulk-upload", agentsFromExcel);
+  const chunkArray = (arr, size) => {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+  };
 
-      alert("Volunteers uploaded successfully!");
+  const handleBulkSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const chunkSize = 100;
+      const chunks = chunkArray(agentsFromExcel, chunkSize);
+
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        const response = await api.post("/person/bulk-upload", chunk);
+        if (response.status !== 201) {
+          throw new Error(`Chunk ${i + 1} failed to upload`);
+        }
+      }
+      alert("All Volunteers uploaded successfully!");
     } catch (err) {
       console.error("Upload failed:", err);
-      alert("Error uploading Volunteers, Please chekck excel sheet formate!");
+      alert("Error uploading Volunteers, Please check excel sheet formate!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,14 +83,20 @@ export const UploadExel = () => {
                   className="btn btn-success w-100"
                 >
                   <i className="bi bi-upload bg-success "></i> Submit{" "}
-                  {agentsFromExcel.length + 1} Agents
+                  {agentsFromExcel.length} Agents
                 </button>
               </div>
-              <div className="col-12 col-md-auto">
-                <Link to="/data" className="btn btn-info w-100">
-                  <i className="bi bi-eye bg-info"></i> See Updated List
-                </Link>
-              </div>
+              {loading ? (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <div className="col-12 col-md-auto">
+                  <Link to="/data" className="btn btn-info w-100">
+                    <i className="bi bi-eye bg-info"></i> See Updated List
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>

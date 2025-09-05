@@ -3,17 +3,28 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import PhotoPreview from "./PhotoPreview";
 import api from "../apis/api";
+import { useNavigate } from "react-router-dom";
 
 export const DisplayAgent = () => {
   const [tableData, setTableData] = useState([]);
   const [filterdData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const getData = async () => {
-    let result = await api.get("/agent-data");
-    let data = result.data;
-    setTableData(data);
-    setFilteredData(data);
+    setLoading(true); // if you have a loading state
+    try {
+      const result = await api.get("/user/agent-data");
+      const data = result.data;
+      setTableData(data);
+      setFilteredData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSearch = (e) => {
@@ -30,7 +41,8 @@ export const DisplayAgent = () => {
 
   const downloadExcel = async () => {
     try {
-      const response = await api.get("/agent-data"); // your API
+      setLoading(true);
+      const response = await api.get("/user/agent-data"); // your API
       let data = response.data;
 
       console.log("Filtered Data : ", data);
@@ -55,6 +67,8 @@ export const DisplayAgent = () => {
       saveAs(blob, "exported-data.xlsx");
     } catch (error) {
       console.error("Error generating Excel file:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -130,48 +144,68 @@ export const DisplayAgent = () => {
               <th>Address</th>
               <th>Photo</th>
               <th>KYC</th>
-              <th>Operations</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filterdData.map((item, index) => (
-              <tr key={item._id}>
-                <td className="text-center fw-bold">{index + 1}</td>
-                <td>{item.name}</td>
-                <td>
-                  {item.dob && !isNaN(new Date(item.dob).getTime())
-                    ? new Date(item.dob).toLocaleDateString("en-GB")
-                    : "N/A"}
-                </td>
-                <td>
-                  {item.dob && !isNaN(new Date(item.dob).getTime())
-                    ? calculateAge(new Date(item.dob)) + " yrs"
-                    : "N/A"}
-                </td>
-
-                <td>{item.mobile}</td>
-                <td>{item.gender}</td>
-                <td>{item.state}</td>
-                <td>{item.district}</td>
-                <td>{item.pincode}</td>
-                <td>{item.address}</td>
-                <td className="text-center">
-                  <PhotoPreview item={item.photo} />
-                </td>
-                <td className="text-center">
-                  <PhotoPreview item={item.kycDocument} />
-                </td>
-                <td className="text-center">
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    <i className="bi bi-trash bg-danger"></i>
-                    Delete
-                  </button>
+            {loading ? (
+              <tr>
+                <td colSpan={13} className="text-center py-4">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
                 </td>
               </tr>
-            ))}
+            ) : filterdData.length === 0 ? (
+              <tr>
+                <td colSpan={13} className="text-center py-4">
+                  No records found
+                </td>
+              </tr>
+            ) : (
+              filterdData.map((item, index) => (
+                <tr key={item._id}>
+                  <td className="text-center fw-bold">{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>
+                    {item.dob && !isNaN(new Date(item.dob).getTime())
+                      ? new Date(item.dob).toLocaleDateString("en-GB")
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {item.dob && !isNaN(new Date(item.dob).getTime())
+                      ? calculateAge(new Date(item.dob)) + " yrs"
+                      : "N/A"}
+                  </td>
+                  <td>{item.mobile}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.state}</td>
+                  <td>{item.district}</td>
+                  <td>{item.pincode}</td>
+                  <td>{item.address}</td>
+                  <td className="text-center">
+                    <PhotoPreview item={item.photo} />
+                  </td>
+                  <td className="text-center">
+                    <PhotoPreview item={item.kycDocument} />
+                  </td>
+                  <td className="text-center">
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      <i className="bi bi-trash bg-danger"></i>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-warning m-1"
+                      onClick={() => navigate(`/update/${item._id}`)}
+                    >
+                      <i className="bi bi-pencil-square bg-warning"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

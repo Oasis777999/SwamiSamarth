@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { Link } from "react-router-dom";
 import locationData from "../State.json";
@@ -8,44 +7,64 @@ import api from "../apis/api";
 
 export const DisplayData = () => {
   const [tableData, setTableData] = useState([]);
-  const [filterdData, setFilteredData] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const limit = 50;
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const getData = async () => {
-    let result = await api.get("/data");
-    let data =  result.data
-    setTableData(data);
-    setFilteredData(data);
+    try {
+      setLoading(true);
+      const result = await api.get("/person/data", {
+        params: {
+          page,
+          limit,
+          search: searchQuery,
+          state: selectedState,
+          district: selectedDistrict,
+        },
+      });
+      setTableData(result.data.data);
+      setTotal(result.data.total);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    getData();
+  }, [page, searchQuery, selectedState, selectedDistrict]);
 
   const downloadExcel = async () => {
     try {
-      const data = filterdData.map(({ name, gender,dob, mobile, address, county, state, district, pincode }) => ({
-        name, gender,dob, mobile, address, county, state, district, pincode
-      }));
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (searchQuery) params.append("search", searchQuery);
+      if (selectedState) params.append("state", selectedState);
+      if (selectedDistrict) params.append("district", selectedDistrict);
 
-      if (!Array.isArray(data)) {
-        throw new Error("Data from API is not an array.");
-      }
+      const url = `/person/export?${params.toString()}`;
 
-      const worksheet = XLSX.utils.json_to_sheet(data);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-      const excelBuffer = XLSX.write(workbook, {
-        bookType: "xlsx",
-        type: "array",
+      const response = await api.get(url, {
+        responseType: "blob",
       });
 
-      const blob = new Blob([excelBuffer], {
+      const blob = new Blob([response.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      saveAs(blob, "exported-data.xlsx");
+      saveAs(blob, "filtered-data.xlsx");
     } catch (error) {
-      console.error("Error generating Excel file:", error);
+      console.error("Error downloading Excel:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,56 +75,10 @@ export const DisplayData = () => {
     const m = today.getMonth() - birthDate.getMonth();
 
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--; // hasn't had birthday yet this year
+      age--;
     }
-
     return age;
   };
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
-  const filterData = () => {
-    let filtered = tableData;
-
-    if (selectedState) {
-      filtered = filtered.filter((row) =>
-        Object.values(row).some((cell) =>
-          cell?.toString().toLowerCase().includes(selectedState.toLowerCase())
-        )
-      );
-    }
-
-    if (selectedDistrict) {
-      filtered = filtered.filter((row) =>
-        Object.values(row).some((cell) =>
-          cell
-            ?.toString()
-            .toLowerCase()
-            .includes(selectedDistrict.toLowerCase())
-        )
-      );
-    }
-
-    if (searchQuery) {
-      filtered = filtered.filter((row) =>
-        Object.values(row).some((cell) =>
-          cell?.toString().toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    }
-
-    setFilteredData(filtered);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  useEffect(() => {
-    filterData();
-  }, [tableData, selectedState, selectedDistrict, searchQuery]);
 
   return (
     <div className="container py-5">
@@ -118,7 +91,10 @@ export const DisplayData = () => {
             className="form-control"
             placeholder="🔍 Search by name, mobile, etc..."
             value={searchQuery}
-            onChange={handleSearch}
+            onChange={(e) => {
+              setPage(1);
+              setSearchQuery(e.target.value);
+            }}
           />
         </div>
 
@@ -128,8 +104,9 @@ export const DisplayData = () => {
             className="form-select"
             value={selectedState}
             onChange={(e) => {
+              setPage(1);
               setSelectedState(e.target.value);
-              setSelectedDistrict(""); // Reset district on state change
+              setSelectedDistrict("");
             }}
           >
             <option value="">🌐 All States</option>
@@ -146,7 +123,10 @@ export const DisplayData = () => {
           <select
             className="form-select"
             value={selectedDistrict}
-            onChange={(e) => setSelectedDistrict(e.target.value)}
+            onChange={(e) => {
+              setPage(1);
+              setSelectedDistrict(e.target.value);
+            }}
             disabled={!selectedState}
           >
             <option value="">🏙️ All Districts</option>
@@ -163,6 +143,7 @@ export const DisplayData = () => {
         <button
           className="btn btn-outline-primary col-md-1 mb-2 mb-md-0 fs-5 bg-light text-primary"
           onClick={() => {
+            setPage(1);
             setSelectedState("");
             setSelectedDistrict("");
             setSearchQuery("");
@@ -174,7 +155,8 @@ export const DisplayData = () => {
         {/* Buttons Bulk uploads and downloadlist */}
         <div className="col-md-12 text-md-end text-center mt-3">
           <Link to="/bulk-upload" className="btn btn-success m-1">
-            <i className="bi bi-file-earmark-arrow-up bg-success"></i> Add Bulk Volunteers
+            <i className="bi bi-file-earmark-arrow-up bg-success"></i> Add Bulk
+            Volunteers
           </Link>
           <button
             onClick={downloadExcel}
@@ -205,38 +187,77 @@ export const DisplayData = () => {
             </tr>
           </thead>
           <tbody>
-            {filterdData.map((item, index) => (
-              <tr key={item._id}>
-                <td className="text-center fw-bold">{index + 1}</td>
-                <td>{item.name}</td>
-                <td>
-                  {item.dob && !isNaN(new Date(item.dob).getTime())
-                    ? new Date(item.dob).toLocaleDateString("en-GB")
-                    : "N/A"}
-                </td>
-
-                <td>
-                  {item.dob && !isNaN(new Date(item.dob).getTime())
-                    ? calculateAge(new Date(item.dob)) + " yrs"
-                    : "N/A"}
-                </td>
-
-                <td>{item.mobile}</td>
-                <td>{item.gender}</td>
-                <td>{item.state}</td>
-                <td>{item.district}</td>
-                <td>{item.pincode}</td>
-                <td>{item.address}</td>
-                <td className="text-center">
-                  <PhotoPreview item={item.photo} />
-                </td>
-                <td className="text-center">
-                  <PhotoPreview item={item.kycDocument} />
+            {loading ? ( // ⬅️ Added
+              <tr>
+                <td colSpan={12} className="text-center py-4">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
                 </td>
               </tr>
-            ))}
+            ) : tableData.length === 0 ? ( // ⬅️ Updated
+              <tr>
+                <td colSpan={12} className="text-center py-4">
+                  No records found
+                </td>
+              </tr>
+            ) : (
+              tableData.map((item, index) => (
+                <tr key={item._id}>
+                  <td className="text-center fw-bold">
+                    {(page - 1) * limit + index + 1}
+                  </td>
+                  <td>{item.name}</td>
+                  <td>
+                    {item.dob && !isNaN(new Date(item.dob).getTime())
+                      ? new Date(item.dob).toLocaleDateString("en-GB")
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {item.dob && !isNaN(new Date(item.dob).getTime())
+                      ? calculateAge(new Date(item.dob)) + " yrs"
+                      : "N/A"}
+                  </td>
+                  <td>{item.mobile}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.state}</td>
+                  <td>{item.district}</td>
+                  <td>{item.pincode}</td>
+                  <td>{item.address}</td>
+                  <td className="text-center">
+                    <PhotoPreview item={item.photo} />
+                  </td>
+                  <td className="text-center">
+                    <PhotoPreview item={item.kycDocument} />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="d-flex justify-content-center align-items-center gap-3 mt-3">
+        <button
+          className="btn btn-outline-primary"
+          disabled={page === 1}
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+        >
+          Prev
+        </button>
+        <span className="fs-5">
+          Page {page} of {Math.ceil(total / limit)}
+        </span>
+        <button
+          className="btn btn-outline-primary"
+          disabled={page === Math.ceil(total / limit) || total === 0}
+          onClick={() =>
+            setPage((p) => Math.min(Math.ceil(total / limit), p + 1))
+          }
+        >
+          Next
+        </button>
       </div>
     </div>
   );

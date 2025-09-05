@@ -100,7 +100,7 @@ export const AddAgent = () => {
         }
       }
 
-      const response = await api.post("/register", submissionData);
+      const response = await api.post("/user/register", submissionData);
 
       if (response) {
         alert(response.data.message);
@@ -300,6 +300,7 @@ export const AddAgent = () => {
                   className="form-control"
                   name="photo"
                   accept="image/*"
+                  capture="environment"
                   onChange={converToBase64Photo}
                   required
                 />
